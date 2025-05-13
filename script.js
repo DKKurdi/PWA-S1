@@ -7,8 +7,8 @@ const welcomeMessage = document.getElementById('welcomeMessage');
 
 const BACKEND_BASE_URL = 'https://pwa-backend-b2m2.onrender.com';
 
-const apiUrl = `${BACKEND_BASE_URL}/api/users`;
-const loginUrl = `${BACKEND_BASE_URL}/api/login`;
+const apiUrl = `https://pwa-backend-b2m2.onrender.com/api/users`;
+const loginUrl = `https://pwa-backend-b2m2.onrender.com/api/login`;
 
 showRegister.addEventListener('click', (e) => {
   e.preventDefault();
