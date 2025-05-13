@@ -5,6 +5,11 @@ const showLogin = document.getElementById('showLogin');
 const logoutBtn = document.getElementById('logoutBtn');
 const welcomeMessage = document.getElementById('welcomeMessage');
 
+const BACKEND_BASE_URL = 'https://pwa-backend-b2m2.onrender.com';
+
+const apiUrl = `${BACKEND_BASE_URL}/api/users`;
+const loginUrl = `${BACKEND_BASE_URL}/api/login`;
+
 showRegister.addEventListener('click', (e) => {
   e.preventDefault();
   loginForm.style.display = 'none';
@@ -16,9 +21,6 @@ showLogin.addEventListener('click', (e) => {
   registrationForm.style.display = 'none';
   loginForm.style.display = 'flex';
 });
-
-const apiUrl = 'http://localhost:3000/api/users';
-const loginUrl = 'http://localhost:3000/api/login';
 
 const createUser = async (username, password) => {
   if (!username || !password) {
@@ -86,11 +88,4 @@ logoutBtn.addEventListener('click', () => {
 document.getElementById('loginButton').addEventListener('click', () => {
   const username = document.getElementById('loginUsername').value;
   const password = document.getElementById('loginPassword').value;
-  loginUser(username, password);
-});
-
-document.getElementById('registerButton').addEventListener('click', () => {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  createUser(username, password);
-});
+  loginUser(username,
