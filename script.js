@@ -88,4 +88,10 @@ logoutBtn.addEventListener('click', () => {
 document.getElementById('loginButton').addEventListener('click', () => {
   const username = document.getElementById('loginUsername').value;
   const password = document.getElementById('loginPassword').value;
-  loginUser(username,
+  loginUser(username, password);
+});
+
+document.getElementById('registerButton').addEventListener('click', () => {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  createUser(username, password);
