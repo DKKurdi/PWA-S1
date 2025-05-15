@@ -19,6 +19,10 @@ body {
   text-align: center;
 }
 
+.icon-container {
+  margin-bottom: 1rem;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -28,6 +32,8 @@ form {
 input {
   padding: 0.5rem;
   font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
@@ -38,10 +44,26 @@ button {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 button:hover {
   background-color: #0056b3;
+}
+
+#logoutBtn {
+  background-color: #dc3545;
+}
+
+#logoutBtn:hover {
+  background-color: #b02a37;
+}
+
+#welcomeMessage {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+  margin-top: 1rem;
 }
 
 @media (max-width: 600px) {
