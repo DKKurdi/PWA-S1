@@ -9,19 +9,34 @@
 <body>
   <div class="container">
     <h1>Sprawdź pogodę</h1>
+
+    <!-- Formularz API -->
     <form id="weatherForm">
       <input type="text" id="city" placeholder="Wpisz miasto" required />
       <button type="submit">Sprawdź</button>
     </form>
     <div id="weatherResult"></div>
-    <a href="index.html">← Wróć</a>
+
+    <hr />
+
+    <!-- Formularz IndexedDB -->
+    <form id="saveForm">
+      <input type="text" id="saveCity" placeholder="Miasto do zapisania" required />
+      <button type="submit">Zapisz miasto</button>
+    </form>
+    <ul id="savedCitiesList"></ul>
+
+    <hr />
+    <a href="index.html">← Wróć do strony głównej</a> |
+    <a href="saved.html">Zobacz zapisane miasta →</a>
   </div>
 
   <script>
+    // API pogodowe
     document.getElementById('weatherForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const city = document.getElementById('city').value;
-      const apiKey = 'ed64a87eb2f6d91c36af8ae7fdd13771';
+      const apiKey = 'TWOJE_API_KEY'; // ← zamień na swój prawdziwy klucz
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pl`;
 
       try {
@@ -33,54 +48,49 @@
         document.getElementById('weatherResult').textContent = "Błąd pobierania danych.";
       }
     });
-  </script>
-  <script>
-  // Otwarcie bazy
-  const request = indexedDB.open("weatherAppDB", 1);
 
-  request.onupgradeneeded = function(event) {
-    const db = event.target.result;
-    db.createObjectStore("cities", { keyPath: "name" });
-  };
+    // IndexedDB zapis/odczyt
+    const request = indexedDB.open("weatherAppDB", 1);
+    request.onupgradeneeded = function(event) {
+      const db = event.target.result;
+      db.createObjectStore("cities", { keyPath: "name" });
+    };
 
-  request.onsuccess = function(event) {
-    const db = event.target.result;
-    loadSavedCities(db);
+    request.onsuccess = function(event) {
+      const db = event.target.result;
+      loadSavedCities(db);
 
-    document.getElementById('saveForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const cityName = document.getElementById('saveCity').value.trim();
-      if (!cityName) return;
+      document.getElementById('saveForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const cityName = document.getElementById('saveCity').value.trim();
+        if (!cityName) return;
 
-      const tx = db.transaction("cities", "readwrite");
-      const store = tx.objectStore("cities");
-      store.put({ name: cityName });
+        const tx = db.transaction("cities", "readwrite");
+        const store = tx.objectStore("cities");
+        store.put({ name: cityName });
 
-      tx.oncomplete = () => {
-        document.getElementById('saveCity').value = '';
-        loadSavedCities(db);
-      };
-    });
-  };
-
-  function loadSavedCities(db) {
-    const tx = db.transaction("cities", "readonly");
-    const store = tx.objectStore("cities");
-    const request = store.getAll();
-
-    request.onsuccess = function() {
-      const list = document.getElementById('savedCitiesList');
-      list.innerHTML = '';
-      request.result.forEach(city => {
-        const li = document.createElement('li');
-        li.textContent = city.name;
-        list.appendChild(li);
+        tx.oncomplete = () => {
+          document.getElementById('saveCity').value = '';
+          loadSavedCities(db);
+        };
       });
     };
-  }
-</script>
 
-  <a href="saved.html">Zobacz zapisane miasta →</a>
-  
+    function loadSavedCities(db) {
+      const tx = db.transaction("cities", "readonly");
+      const store = tx.objectStore("cities");
+      const request = store.getAll();
+
+      request.onsuccess = function() {
+        const list = document.getElementById('savedCitiesList');
+        list.innerHTML = '';
+        request.result.forEach(city => {
+          const li = document.createElement('li');
+          li.textContent = city.name;
+          list.appendChild(li);
+        });
+      };
+    }
+  </script>
 </body>
 </html>
