@@ -11,6 +11,7 @@ showRegister.addEventListener('click', () => {
     registrationForm.style.display = 'block';
 });
 
+
 showLogin.addEventListener('click', () => {
     registrationForm.style.display = 'none';
     loginForm.style.display = 'block';
