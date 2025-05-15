@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moja aplikacja PWA</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="public/style.css">
+    <link rel="manifest" href="public/manifest.json">
 </head>
 <body>
     <div class="container">
@@ -29,7 +29,7 @@
         <button id="logoutBtn" style="display: none;">Wyloguj się</button>
     </div>
 
-    <script src="script.js"></script>
+    <script src="public/script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
