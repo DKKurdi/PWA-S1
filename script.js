@@ -27,7 +27,7 @@ const createUser = async (username, password) => {
     }
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch('https://pwa-backend-b2m2.onrender.com', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -55,7 +55,7 @@ const createUser = async (username, password) => {
 };
 
 // Funkcja logowania
-const loginUrl = 'http://localhost:3000/api/login';
+const loginUrl = 'https://pwa-backend-b2m2.onrender.com';
 
 const loginUser = async (username, password) => {
     if (!username || !password) {
