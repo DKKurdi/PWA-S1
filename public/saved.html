@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zapisane miasta</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Zapisane miasta</h1>
+    <ul id="savedCitiesList"></ul>
+    <a href="weather.html">← Wróć do pogody</a>
+  </div>
+
+  <script>
+    const request = indexedDB.open("weatherAppDB", 1);
+    request.onsuccess = function(event) {
+      const db = event.target.result;
+      const tx = db.transaction("cities", "readonly");
+      const store = tx.objectStore("cities");
+      const getAll = store.getAll();
+
+      getAll.onsuccess = function() {
+        const list = document.getElementById("savedCitiesList");
+        list.innerHTML = "";
+        getAll.result.forEach(city => {
+          const li = document.createElement("li");
+          li.textContent = city.name;
+          list.appendChild(li);
+        });
+      };
+    };
+  </script>
+</body>
+</html>
