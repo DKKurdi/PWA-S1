@@ -18,7 +18,7 @@ showLogin.addEventListener('click', () => {
 });
 
 // Funkcja rejestracji
-const apiUrl = 'https://pwa-backend-b2m2.onrender.com';
+const apiUrl = 'https://pwa-backend-b2m2.onrender.com/register';
 
 const createUser = async (username, password) => {
     if (!username || !password) {
@@ -55,7 +55,7 @@ const createUser = async (username, password) => {
 };
 
 // Funkcja logowania
-const loginUrl = 'https://pwa-backend-b2m2.onrender.com';
+const loginUrl = 'https://pwa-backend-b2m2.onrender.com/login';
 
 const loginUser = async (username, password) => {
     if (!username || !password) {
