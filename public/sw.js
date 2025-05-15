@@ -3,6 +3,7 @@ const FILES_TO_CACHE = [
   '/',
   '/index.html',
   '/weather.html',
+  '/saved.html',
   '/script.js',
   '/style.css',
   '/manifest.json',
