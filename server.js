@@ -1,8 +1,8 @@
 const express = require('express');
-const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -27,15 +27,22 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// 👉 Dodaj to — serwowanie plików frontendowych
-app.use(express.static(path.join(__dirname, 'public')));
+// 🔹 Serwowanie plików statycznych (HTML, CSS, JS, itp.)
+app.use(express.static(__dirname));
 
-// Endpointy API
+// 🔹 Endpoint do serwowania index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 🔹 Rejestracja
 app.post('/api/users', async (req, res) => {
     const { username, password } = req.body;
+
     if (!username || !password) {
         return res.status(400).json({ message: 'Wypełnij wszystkie pola.' });
     }
@@ -47,9 +54,11 @@ app.post('/api/users', async (req, res) => {
 
     const newUser = new User({ username, password });
     await newUser.save();
+
     res.status(201).json({ message: 'Użytkownik zarejestrowany.' });
 });
 
+// 🔹 Logowanie
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -71,11 +80,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// 👉 Dodaj to — obsługa wszystkich innych ścieżek (np. `/`) dla PWA
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
+// Start serwera
 app.listen(PORT, () => {
     console.log(`Serwer działa na porcie ${PORT}`);
 });
