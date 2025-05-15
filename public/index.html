@@ -6,12 +6,7 @@
   <title>Moja aplikacja PWA</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
-    <!-- Ikony PNG (dla systemów i PWA) -->
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
-  <link rel="apple-touch-icon" href="icons/icon-512x512.png">
-    <!-- Favicon klasyczny (do kart i zakładek) -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="theme-color" content="#007bff" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <div class="container">
@@ -33,14 +28,16 @@
 
     <p id="welcomeMessage" style="display: none;"></p>
     <button id="logoutBtn" style="display: none;">Wyloguj się</button>
+
+    <a href="weather.html">Sprawdź pogodę →</a>
   </div>
 
   <script src="script.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('Service Worker zarejestrowany poprawnie.'))
-        .catch(error => console.error('Błąd SW:', error));
+        .then(() => console.log('Service Worker zarejestrowany'))
+        .catch(err => console.error('Błąd SW:', err));
     }
   </script>
 </body>
