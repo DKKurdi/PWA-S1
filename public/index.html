@@ -6,13 +6,12 @@
   <title>Moja aplikacja PWA</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon-192x192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="icon-512x512.png" />
+  <meta name="theme-color" content="#007bff" />
 </head>
 <body>
   <div class="container">
-    <div class="icon-container">
-      <img src="icons/icon-192x192.png" alt="Logo aplikacji" width="64" height="64" />
-    </div>
-
     <form id="loginForm">
       <h1>Logowanie</h1>
       <input type="text" id="loginUsername" placeholder="Nazwa użytkownika" />
@@ -36,8 +35,7 @@
   <script src="script.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('sw.js')
+      navigator.serviceWorker.register('sw.js')
         .then(() => console.log('Service Worker zarejestrowany poprawnie.'))
         .catch(error => console.error('Błąd SW:', error));
     }
