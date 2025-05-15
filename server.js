@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -6,6 +7,7 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Połączenie z MongoDB
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -18,6 +20,7 @@ db.once('open', () => {
     console.log('Połączono z MongoDB.');
 });
 
+// Schemat użytkownika
 const userSchema = new mongoose.Schema({
     username: String,
     password: String
@@ -27,6 +30,10 @@ const User = mongoose.model('User', userSchema);
 app.use(cors());
 app.use(bodyParser.json());
 
+// 👉 Dodaj to — serwowanie plików frontendowych
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Endpointy API
 app.post('/api/users', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -62,6 +69,11 @@ app.post('/api/login', async (req, res) => {
         console.error('Błąd podczas logowania:', error);
         res.status(500).json({ message: 'Wystąpił błąd serwera.' });
     }
+});
+
+// 👉 Dodaj to — obsługa wszystkich innych ścieżek (np. `/`) dla PWA
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(PORT, () => {
