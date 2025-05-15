@@ -32,7 +32,7 @@
     <script src="public/script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
+            navigator.serviceWorker.register('public/sw.js')
                 .then(() => console.log('Service Worker zarejestrowany poprawnie.'))
                 .catch(error => console.error('Błąd SW:', error));
         }
