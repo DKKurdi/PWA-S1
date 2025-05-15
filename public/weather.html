@@ -34,5 +34,50 @@
       }
     });
   </script>
+  <script>
+  // Otwarcie bazy
+  const request = indexedDB.open("weatherAppDB", 1);
+
+  request.onupgradeneeded = function(event) {
+    const db = event.target.result;
+    db.createObjectStore("cities", { keyPath: "name" });
+  };
+
+  request.onsuccess = function(event) {
+    const db = event.target.result;
+    loadSavedCities(db);
+
+    document.getElementById('saveForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const cityName = document.getElementById('saveCity').value.trim();
+      if (!cityName) return;
+
+      const tx = db.transaction("cities", "readwrite");
+      const store = tx.objectStore("cities");
+      store.put({ name: cityName });
+
+      tx.oncomplete = () => {
+        document.getElementById('saveCity').value = '';
+        loadSavedCities(db);
+      };
+    });
+  };
+
+  function loadSavedCities(db) {
+    const tx = db.transaction("cities", "readonly");
+    const store = tx.objectStore("cities");
+    const request = store.getAll();
+
+    request.onsuccess = function() {
+      const list = document.getElementById('savedCitiesList');
+      list.innerHTML = '';
+      request.result.forEach(city => {
+        const li = document.createElement('li');
+        li.textContent = city.name;
+        list.appendChild(li);
+      });
+    };
+  }
+</script>
 </body>
 </html>
