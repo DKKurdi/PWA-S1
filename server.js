@@ -31,12 +31,12 @@ const User = mongoose.model('User', userSchema);
 app.use(cors());
 app.use(bodyParser.json());
 
-// 🔹 Serwowanie plików statycznych (HTML, CSS, JS, itp.)
-app.use(express.static(__dirname));
+// 🔹 Serwowanie plików z folderu public
+app.use(express.static(path.join(__dirname, 'public')));
 
-// 🔹 Endpoint do serwowania index.html
+// 🔹 Domyślna strona
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 🔹 Rejestracja
