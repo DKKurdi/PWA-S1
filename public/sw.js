@@ -1,39 +1,39 @@
 const CACHE_NAME = 'my-cache-v1';
+
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
   '/weather.html',
   '/saved.html',
   '/offline.html',
-  '/script.js',
   '/style.css',
+  '/script.js',
   '/manifest.json',
-  '/favicon.ico',
-  '/faviconios.ico',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  '/favicon.ico',
+  '/faviconios.ico'
 ];
 
+// Instalacja – cache plików
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
   self.skipWaiting();
 });
 
+// Aktywacja – czyszczenie starych cache'y
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames =>
-      Promise.all(
-        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
-      )
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
+// Obsługa żądań – cache-first + fallback
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response =>
