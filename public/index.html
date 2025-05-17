@@ -6,12 +6,16 @@
   <title>Moja aplikacja PWA</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
+  <!-- Ikona favicon dla przeglądarki -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <!-- Ikona dla urządzeń Apple (np. iPhone, iPad) -->
   <link rel="apple-touch-icon" href="faviconios.ico" type="image/x-icon" />
 </head>
 <body>
   <div class="container">
     <form id="loginForm">
+
+      <!-- Formularz logowania -->
       <h1>Logowanie</h1>
       <input type="text" id="loginUsername" placeholder="Nazwa użytkownika" />
       <input type="password" id="loginPassword" placeholder="Hasło" />
@@ -19,6 +23,7 @@
       <p>Nie masz konta? <button id="showRegister" type="button">Zarejestruj się</button></p>
     </form>
 
+     <!-- Formularz rejestracji -->
     <form id="registrationForm" style="display: none;">
       <h1>Rejestracja</h1>
       <input type="text" id="username" placeholder="Nazwa użytkownika" />
@@ -27,13 +32,18 @@
       <p>Masz już konto? <button id="showLogin" type="button">Zaloguj się</button></p>
     </form>
 
+    <!-- Powitanie po zalogowaniu -->
     <p id="welcomeMessage" style="display: none;"></p>
+
+    <!-- Przycisk wylogowania -->
     <button id="logoutBtn" style="display: none;">Wyloguj się</button>
 
+    <!-- Link do podstrony z pogodą -->
     <a href="weather.html">Sprawdź pogodę →</a>
   </div>
-
+<!-- Logika aplikacji (obsługa formularzy, logowania, rejestracji) -->
   <script src="script.js"></script>
+  !-- Rejestracja Service Workera -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
