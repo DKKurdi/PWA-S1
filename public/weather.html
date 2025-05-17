@@ -10,7 +10,7 @@
   <div class="container">
     <h1>Sprawdź pogodę</h1>
 
-    <!-- Formularz API -->
+     <!-- Formularz do wyszukiwania pogody przez API OpenWeatherMap -->
     <form id="weatherForm">
       <input type="text" id="city" placeholder="Wpisz miasto" required />
       <button type="submit">Sprawdź</button>
@@ -19,20 +19,22 @@
 
     <hr />
 
-    <!-- Formularz IndexedDB -->
+     <!-- Formularz do zapisywania miasta w lokalnej bazie IndexedDB -->
     <form id="saveForm">
       <input type="text" id="saveCity" placeholder="Miasto do zapisania" required />
       <button type="submit">Zapisz miasto</button>
     </form>
+    <!-- Lista zapisanych miast -->
     <ul id="savedCitiesList"></ul>
 
     <hr />
+    <!-- Linki nawigacyjne -->
     <a href="index.html">← Wróć do strony głównej</a> |
     <a href="saved.html">Zobacz zapisane miasta →</a>
   </div>
 
   <script>
-    // API pogodowe
+    // Pobieranie pogody z OpenWeatherMap API
     document.getElementById('weatherForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const city = document.getElementById('city').value;
@@ -42,14 +44,17 @@
       try {
         const res = await fetch(url);
         const data = await res.json();
+
+        // Wyświetlenie danych pogodowych
         document.getElementById('weatherResult').textContent =
           `🌡️ ${data.main.temp}°C, ${data.weather[0].description} – ${data.name}`;
       } catch (err) {
+        // Obsługa błędu (np. brak internetu, błędne miasto)
         document.getElementById('weatherResult').textContent = "Błąd pobierania danych.";
       }
     });
 
-    // IndexedDB zapis/odczyt
+    // Obsługa IndexedDB – zapisywanie i wyświetlanie miast
     const request = indexedDB.open("weatherAppDB", 1);
     request.onupgradeneeded = function(event) {
       const db = event.target.result;
@@ -76,6 +81,7 @@
       });
     };
 
+    // Funkcja do załadowania i wyświetlenia zapisanych miast
     function loadSavedCities(db) {
       const tx = db.transaction("cities", "readonly");
       const store = tx.objectStore("cities");
