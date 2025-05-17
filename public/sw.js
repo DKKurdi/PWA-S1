@@ -15,7 +15,7 @@ const FILES_TO_CACHE = [
   '/faviconios.ico'
 ];
 
-// Instalacja – cache plików
+// Instalacja Service Workera i dodanie plików do cache'u
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
@@ -23,7 +23,7 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
-// Aktywacja – czyszczenie starych cache'y
+// Aktywacja Service Workera i usunięcie starych cache'y
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -33,7 +33,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Obsługa żądań – cache-first + fallback
+// Obsługa żądań sieciowych z strategią cache-first
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response =>
