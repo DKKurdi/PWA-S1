@@ -9,25 +9,33 @@
 <body>
   <div class="container">
     <h1>Zapisane miasta</h1>
+    <!-- Lista zapisanych miast pobrana z IndexedDB -->
     <ul id="savedCitiesList"></ul>
+    <!-- Link powrotny do strony z wyszukiwaniem pogody -->
     <a href="weather.html">← Wróć do pogody</a>
   </div>
 
   <script>
+    // Otwarcie lokalnej bazy danych IndexedDB o nazwie "weatherAppDB"
     const request = indexedDB.open("weatherAppDB", 1);
+    // Po udanym otwarciu bazy danych:
     request.onsuccess = function(event) {
       const db = event.target.result;
+      // Rozpoczęcie transakcji odczytu z obiektu "cities"
       const tx = db.transaction("cities", "readonly");
       const store = tx.objectStore("cities");
-      const getAll = store.getAll();
+      const getAll = store.getAll(); // Pobranie wszystkich zapisanych miast
 
+      // Po pomyślnym odczycie danych:
       getAll.onsuccess = function() {
         const list = document.getElementById("savedCitiesList");
-        list.innerHTML = "";
+        list.innerHTML = ""; // Wyczyść listę (na wypadek ponownego ładowania)
+
+        // Dla każdego miasta w wynikach utwórz nowy <li> z nazwą
         getAll.result.forEach(city => {
           const li = document.createElement("li");
           li.textContent = city.name;
-          list.appendChild(li);
+          list.appendChild(li); // Dodaj element do listy na stronie
         });
       };
     };
